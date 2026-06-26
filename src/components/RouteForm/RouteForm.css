@@ -30,13 +30,13 @@
 
 .route-form-card input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
 }
 
 .route-form-card button {
   width: 100%;
-  background-color: #2563eb;
+  background-color: #f97316;
   color: white;
   font-weight: 600;
   padding: 10px 16px;
@@ -48,7 +48,7 @@
 }
 
 .route-form-card button:hover {
-  background-color: #1d4ed8;
+  background-color: #ea580c;
 }
 
 .route-form-card button:disabled {
