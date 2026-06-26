@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { getDrivingRouteCoordinates } from '../../services/mapboxRoute';
 
 function parseRoutePath(route) {
   if (!route?.path?.length) {
@@ -42,7 +43,7 @@ function fitMapToRoute(mapboxglModule, map, points) {
   });
 
   map.fitBounds(bounds, {
-    padding: { top: 56, bottom: 56, left: 56, right: 56 },
+    padding: 56,
     duration: 0,
   });
 }
@@ -102,12 +103,68 @@ function RouteMap({ route }) {
     if (!mapReady || !map || !mapboxglModule || !routePoints.length) {
       markerRefs.current.forEach((marker) => marker.remove());
       markerRefs.current = [];
+      if (map?.getLayer('route-line')) {
+        map.removeLayer('route-line');
+      }
+      if (map?.getSource('route-line')) {
+        map.removeSource('route-line');
+      }
       return;
     }
 
-    const applyRouteLayer = () => {
+    let cancelled = false;
+
+    const applyRouteLayer = async () => {
+      let routeCoordinates = routePoints.map((point) => point.coordinates);
+
+      if (routePoints.length > 1) {
+        routeCoordinates = await getDrivingRouteCoordinates(routePoints, accessToken);
+      }
+
+      if (cancelled) {
+        return;
+      }
+
+      if (!routeCoordinates.length) {
+        routeCoordinates = routePoints.map((point) => point.coordinates);
+      }
+
       markerRefs.current.forEach((marker) => marker.remove());
       markerRefs.current = [];
+
+      if (map.getLayer('route-line')) {
+        map.removeLayer('route-line');
+      }
+
+      if (map.getSource('route-line')) {
+        map.removeSource('route-line');
+      }
+
+      map.addSource('route-line', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: routeCoordinates,
+          },
+          properties: {},
+        },
+      });
+
+      map.addLayer({
+        id: 'route-line',
+        type: 'line',
+        source: 'route-line',
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round',
+        },
+        paint: {
+          'line-color': '#111827',
+          'line-width': 4,
+        },
+      });
 
       routePoints.forEach((point) => {
         const markerElement = document.createElement('div');
@@ -141,11 +198,18 @@ function RouteMap({ route }) {
     map.once('load', applyRouteLayer);
 
     return () => {
+      cancelled = true;
       map.off('load', applyRouteLayer);
       markerRefs.current.forEach((marker) => marker.remove());
       markerRefs.current = [];
+      if (map.getLayer('route-line')) {
+        map.removeLayer('route-line');
+      }
+      if (map.getSource('route-line')) {
+        map.removeSource('route-line');
+      }
     };
-  }, [mapReady, routePoints]);
+  }, [accessToken, mapReady, routePoints]);
 
   return (
     <div aria-label="Route map">
