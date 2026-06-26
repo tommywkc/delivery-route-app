@@ -33,6 +33,13 @@ function RouteForm({ onSubmit, status = 'idle' }) {
     }));
   }
 
+  function handleSwap() {
+    setFormValues((currentValues) => ({
+      pickup: currentValues.dropoff,
+      dropoff: currentValues.pickup,
+    }));
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -54,64 +61,75 @@ function RouteForm({ onSubmit, status = 'idle' }) {
   return (
     <section className="route-form-card" aria-label="Route input">
       <form onSubmit={handleSubmit}>
-        <div className="form-group floating-label-group">
-          <input
-            id="pickup"
-            name="pickup"
-            type="text"
-            className="floating-input"
-            value={formValues.pickup}
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder=" "
-          />
-          <label htmlFor="pickup" className="floating-label">
-            {formValues.pickup || focusedField === 'pickup' ? 'Pickup' : 'Pickup Address'}
-          </label>
-          {formValues.pickup && (
-            <button
-              type="button"
-              className="clear-btn"
-              onClick={() => handleClear('pickup')}
-              onMouseDown={(e) => e.preventDefault()}
-              aria-label="Clear pickup"
-            >
-              &#x2715;
-            </button>
-          )}
-        </div>
+        <div className="route-inputs-container">
+          <div className="form-group floating-label-group">
+            <input
+              id="pickup"
+              name="pickup"
+              type="text"
+              className="floating-input"
+              value={formValues.pickup}
+              onChange={handleChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              placeholder=" "
+            />
+            <label htmlFor="pickup" className="floating-label">
+              {formValues.pickup || focusedField === 'pickup' ? 'Pickup' : 'Pickup Address'}
+            </label>
+            {formValues.pickup && (
+              <button
+                type="button"
+                className="clear-btn"
+                onClick={() => handleClear('pickup')}
+                onMouseDown={(e) => e.preventDefault()}
+                aria-label="Clear pickup"
+              >
+                &#x2715;
+              </button>
+            )}
+          </div>
 
-        <div className="form-group floating-label-group">
-          <input
-            id="dropoff"
-            name="dropoff"
-            type="text"
-            className="floating-input"
-            value={formValues.dropoff}
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder=" "
-          />
-          <label htmlFor="dropoff" className="floating-label">
-            {formValues.dropoff || focusedField === 'dropoff' ? 'Drop-off' : 'Drop-off Address'}
-          </label>
-          {formValues.dropoff && (
-            <button
-              type="button"
-              className="clear-btn"
-              onClick={() => handleClear('dropoff')}
-              onMouseDown={(e) => e.preventDefault()}
-              aria-label="Clear drop-off"
-            >
-              &#x2715;
-            </button>
-          )}
+          <button
+            type="button"
+            className="swap-btn center-swap"
+            onClick={handleSwap}
+            aria-label="Swap pickup and drop-off"
+          >
+            &#x21C5;
+          </button>
+
+          <div className="form-group floating-label-group" style={{ marginBottom: 0 }}>
+            <input
+              id="dropoff"
+              name="dropoff"
+              type="text"
+              className="floating-input"
+              value={formValues.dropoff}
+              onChange={handleChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              placeholder=" "
+            />
+            <label htmlFor="dropoff" className="floating-label">
+              {formValues.dropoff || focusedField === 'dropoff' ? 'Drop-off' : 'Drop-off Address'}
+            </label>
+            {formValues.dropoff && (
+              <button
+                type="button"
+                className="clear-btn"
+                onClick={() => handleClear('dropoff')}
+                onMouseDown={(e) => e.preventDefault()}
+                aria-label="Clear drop-off"
+              >
+                &#x2715;
+              </button>
+            )}
+          </div>
         </div>
 
         <button type="submit" disabled={status === 'submitting' || status === 'polling'}>
-          {status === 'submitting' ? 'Sending request...' : status === 'polling' ? 'Finding route...' : 'Submit'}
+          {status === 'submitting' ? 'Submitting...' : status === 'polling' ? 'Calculating route...' : 'Submit'}
         </button>
 
         {errorMessage ? <p className="error-message" role="alert">{errorMessage}</p> : null}
