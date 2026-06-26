@@ -1,13 +1,9 @@
 .app-shell {
   min-height: 100vh;
-  padding: 24px;
-  max-width: 960px;
-  margin: 0 auto;
+  padding: 16px;
 }
 
-.placeholder-card {
+.status-card,
+.map-section {
   margin-top: 16px;
-  padding: 16px;
-  border: 1px solid #d9dfe8;
-  border-radius: 12px;
 }

@@ -1,29 +1,28 @@
 import './App.css';
 import RouteForm from './components/RouteForm/RouteForm';
+import RouteMap from './components/RouteMap/RouteMap';
 import { useRouteRequest } from './hooks/useRouteRequest';
 
 function App() {
-  const { errorMessage, route, status, submitRoute, token } = useRouteRequest();
+  const { errorMessage, route, status, submitRoute } = useRouteRequest();
 
   return (
     <main className="app-shell">
-      <h1>Delivery route application</h1>
-      <p>Skeleton is ready. Next step is the route form.</p>
+      <h1>Delivery route app</h1>
       <RouteForm onSubmit={submitRoute} status={status} />
-      <div className="placeholder-card">
+
+      <section className="status-card" aria-label="Route status">
         <h2>Status</h2>
         <p role="status" aria-live="polite">
           Status: {status}
         </p>
-        {token ? <p>Token: {token}</p> : null}
         {errorMessage ? <p role="alert">{errorMessage}</p> : null}
-        {route?.status === 'success' ? <p>Route ready.</p> : null}
-      </div>
-      <div className="placeholder-card">
+      </section>
+
+      <section className="map-section">
         <h2>Map</h2>
-        <p>Route map will render here.</p>
-        {route?.path ? <p>Waypoints: {route.path.length}</p> : null}
-      </div>
+        <RouteMap route={route} />
+      </section>
     </main>
   );
 }
