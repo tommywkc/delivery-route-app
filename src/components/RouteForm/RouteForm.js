@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function RouteForm() {
+function RouteForm({ onSubmit, status = 'idle' }) {
   const [formValues, setFormValues] = useState({
     pickup: '',
     dropoff: '',
@@ -25,6 +25,13 @@ function RouteForm() {
     }
 
     setErrorMessage('');
+
+    if (onSubmit) {
+      onSubmit({
+        origin: formValues.pickup.trim(),
+        destination: formValues.dropoff.trim(),
+      });
+    }
   }
 
   return (
