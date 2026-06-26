@@ -16,6 +16,7 @@
 .floating-input {
   width: 100%;
   padding: 12px;
+  padding-right: 36px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 0.95rem;
@@ -52,9 +53,33 @@
   font-weight: 500;
 }
 
-/* Remove the old default styles for input/label to avoid conflicts */
+.clear-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 14px; 
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease-in-out;
+  z-index: 10;
+}
 
-.route-form-card button {
+.clear-btn:hover {
+  color: #4b5563; 
+}
+
+.clear-btn:focus {
+  outline: none;
+}
+
+.route-form-card button[type="submit"] {
   width: 100%;
   background-color: #f97316;
   color: white;
@@ -67,11 +92,11 @@
   transition: background-color 0.15s ease-in-out;
 }
 
-.route-form-card button:hover {
+.route-form-card button[type="submit"]:hover {
   background-color: #ea580c;
 }
 
-.route-form-card button:disabled {
+.route-form-card button[type="submit"]:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
 }

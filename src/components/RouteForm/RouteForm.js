@@ -26,6 +26,13 @@ function RouteForm({ onSubmit, status = 'idle' }) {
     setFocusedField(null);
   }
 
+  function handleClear(field) {
+    setFormValues((currentValues) => ({
+      ...currentValues,
+      [field]: '',
+    }));
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -62,6 +69,17 @@ function RouteForm({ onSubmit, status = 'idle' }) {
           <label htmlFor="pickup" className="floating-label">
             {formValues.pickup || focusedField === 'pickup' ? 'Pickup' : 'Pickup Address'}
           </label>
+          {formValues.pickup && (
+            <button
+              type="button"
+              className="clear-btn"
+              onClick={() => handleClear('pickup')}
+              onMouseDown={(e) => e.preventDefault()}
+              aria-label="Clear pickup"
+            >
+              &#x2715;
+            </button>
+          )}
         </div>
 
         <div className="form-group floating-label-group">
@@ -79,6 +97,17 @@ function RouteForm({ onSubmit, status = 'idle' }) {
           <label htmlFor="dropoff" className="floating-label">
             {formValues.dropoff || focusedField === 'dropoff' ? 'Drop-off' : 'Drop-off Address'}
           </label>
+          {formValues.dropoff && (
+            <button
+              type="button"
+              className="clear-btn"
+              onClick={() => handleClear('dropoff')}
+              onMouseDown={(e) => e.preventDefault()}
+              aria-label="Clear drop-off"
+            >
+              &#x2715;
+            </button>
+          )}
         </div>
 
         <button type="submit" disabled={status === 'submitting' || status === 'polling'}>
