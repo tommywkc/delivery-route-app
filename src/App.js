@@ -5,10 +5,6 @@ import RouteMap from './components/RouteMap/RouteMap';
 import { useRouteRequest } from './hooks/useRouteRequest';
 
 function getUserMessage(status, errorMessage, route) {
-  if (status === 'submitting' || status === 'polling') {
-    return 'Loading route...';
-  }
-
   if (status === 'failure' || status === 'error') {
     return errorMessage || 'Route request failed.';
   }
@@ -17,7 +13,7 @@ function getUserMessage(status, errorMessage, route) {
     return 'Route loaded successfully.';
   }
 
-  return 'Enter pickup and drop-off to see the route.';
+  return null;
 }
 
 function App() {
@@ -31,11 +27,13 @@ function App() {
         <aside className="left-panel">
           <RouteForm onSubmit={submitRoute} status={status} />
           
-          <section className="message-card" aria-live="polite" aria-label="Route message">
-            <p role={status === 'failure' || status === 'error' ? 'alert' : 'status'} style={{ margin: 0 }}>
-              {userMessage}
-            </p>
-          </section>
+          {userMessage && (
+            <section className="message-card" aria-live="polite" aria-label="Route message">
+              <p role={status === 'failure' || status === 'error' ? 'alert' : 'status'} style={{ margin: 0 }}>
+                {userMessage}
+              </p>
+            </section>
+          )}
         </aside>
 
         <section className="map-section">
