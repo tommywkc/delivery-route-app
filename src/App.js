@@ -1,24 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="app-shell">
+      <h1>Delivery route challenge</h1>
+      <p>Skeleton is ready. Next step is the route form.</p>
+      <div className="placeholder-card">
+        <h2>Route input</h2>
+        <p>Form will be added here.</p>
+      </div>
+      <div className="placeholder-card">
+        <h2>Status</h2>
+        <p>Request state will appear here.</p>
+      </div>
+      <div className="placeholder-card">
+        <h2>Map</h2>
+        <p>Route map will render here.</p>
+      </div>
+    </main>
   );
 }
 
