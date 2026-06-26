@@ -10,7 +10,16 @@ function getUserMessage(status, errorMessage, route) {
   }
 
   if (status === 'success' && route) {
-    return 'Route loaded successfully.';
+    const hours = Math.floor(route.total_time / 3600);
+    const minutes = Math.floor((route.total_time % 3600) / 60);
+    const timeString = hours > 0 ? `${hours}hr ${minutes}min` : `${minutes}min`;
+    
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <strong>Total distance: {route.total_distance}</strong>
+        <strong>Total time: {timeString}</strong>
+      </div>
+    );
   }
 
   return null;
