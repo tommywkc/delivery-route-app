@@ -1,4 +1,5 @@
 import './App.css';
+import Header from './components/Header/Header';
 import RouteForm from './components/RouteForm/RouteForm';
 import RouteMap from './components/RouteMap/RouteMap';
 import { useRouteRequest } from './hooks/useRouteRequest';
@@ -24,20 +25,26 @@ function App() {
   const userMessage = getUserMessage(status, errorMessage, route);
 
   return (
-    <main className="app-shell">
-      <h1>Delivery route app</h1>
-      <RouteForm onSubmit={submitRoute} status={status} />
+    <div className="app-shell">
+      <Header />
+      <main className="main-content">
+        <aside className="left-panel">
+          <RouteForm onSubmit={submitRoute} status={status} />
+          
+          <section className="message-card" aria-live="polite" aria-label="Route message">
+            <p role={status === 'failure' || status === 'error' ? 'alert' : 'status'} style={{ margin: 0 }}>
+              {userMessage}
+            </p>
+          </section>
+        </aside>
 
-      <section className="message-card" aria-live="polite" aria-label="Route message">
-        <p role={status === 'failure' || status === 'error' ? 'alert' : 'status'}>{userMessage}</p>
-      </section>
-
-      <section className="map-section">
-        <h2>Map</h2>
-        {route ? null : <p>No route yet.</p>}
-        <RouteMap route={route} />
-      </section>
-    </main>
+        <section className="map-section">
+          <h2>Map</h2>
+          {route ? null : <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: '#6b7280'}}>No route yet.</div>}
+          <RouteMap route={route} />
+        </section>
+      </main>
+    </div>
   );
 }
 

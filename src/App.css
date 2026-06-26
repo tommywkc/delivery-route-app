@@ -1,9 +1,51 @@
 .app-shell {
-  min-height: 100vh;
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.message-card,
-.map-section {
-  margin-top: 16px;
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
+
+.left-panel {
+  width: 400px;
+  min-width: 320px;
+  background-color: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.message-card {
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.map-section {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-section h2 {
+  display: none; /* Hide default title for a cleaner look */
+}
+
+/* Map container styling is handled in component, setting height here to fill */
+.map-container {
+  flex: 1;
+  width: 100%;
+}
+
