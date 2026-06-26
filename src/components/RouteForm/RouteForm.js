@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './RouteForm.css';
 
 function RouteForm({ onSubmit, status = 'idle' }) {
   const [formValues, setFormValues] = useState({
@@ -33,14 +34,11 @@ function RouteForm({ onSubmit, status = 'idle' }) {
       });
     }
   }
-        <button type="submit" disabled={status === 'submitting' || status === 'polling'}>
-          {status === 'submitting' || status === 'polling' ? 'Loading...' : 'Submit'}
-        </button>
+
   return (
-    <section className="placeholder-card" aria-label="Route input">
-      <h2>Route input</h2>
+    <section className="route-form-card" aria-label="Route input">
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label htmlFor="pickup">Pickup</label>
           <input
             id="pickup"
@@ -48,10 +46,11 @@ function RouteForm({ onSubmit, status = 'idle' }) {
             type="text"
             value={formValues.pickup}
             onChange={handleChange}
+            placeholder="Enter pickup location"
           />
         </div>
 
-        <div>
+        <div className="form-group">
           <label htmlFor="dropoff">Drop-off</label>
           <input
             id="dropoff"
@@ -59,12 +58,15 @@ function RouteForm({ onSubmit, status = 'idle' }) {
             type="text"
             value={formValues.dropoff}
             onChange={handleChange}
+            placeholder="Enter drop-off location"
           />
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={status === 'submitting' || status === 'polling'}>
+          {status === 'submitting' || status === 'polling' ? 'Loading...' : 'Submit'}
+        </button>
 
-        {errorMessage ? <p role="alert">{errorMessage}</p> : null}
+        {errorMessage ? <p className="error-message" role="alert">{errorMessage}</p> : null}
       </form>
     </section>
   );
