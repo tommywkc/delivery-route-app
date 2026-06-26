@@ -6,6 +6,7 @@ function RouteForm({ onSubmit, status = 'idle' }) {
     pickup: '',
     dropoff: '',
   });
+  const [focusedField, setFocusedField] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
   function handleChange(event) {
@@ -15,6 +16,14 @@ function RouteForm({ onSubmit, status = 'idle' }) {
       ...currentValues,
       [name]: value,
     }));
+  }
+
+  function handleFocus(event) {
+    setFocusedField(event.target.name);
+  }
+
+  function handleBlur() {
+    setFocusedField(null);
   }
 
   function handleSubmit(event) {
@@ -38,28 +47,38 @@ function RouteForm({ onSubmit, status = 'idle' }) {
   return (
     <section className="route-form-card" aria-label="Route input">
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="pickup">Pickup</label>
+        <div className="form-group floating-label-group">
           <input
             id="pickup"
             name="pickup"
             type="text"
+            className="floating-input"
             value={formValues.pickup}
             onChange={handleChange}
-            placeholder="Enter pickup location"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            placeholder=" "
           />
+          <label htmlFor="pickup" className="floating-label">
+            {formValues.pickup || focusedField === 'pickup' ? 'Pickup' : 'Pickup Address'}
+          </label>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="dropoff">Drop-off</label>
+        <div className="form-group floating-label-group">
           <input
             id="dropoff"
             name="dropoff"
             type="text"
+            className="floating-input"
             value={formValues.dropoff}
             onChange={handleChange}
-            placeholder="Enter drop-off location"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            placeholder=" "
           />
+          <label htmlFor="dropoff" className="floating-label">
+            {formValues.dropoff || focusedField === 'dropoff' ? 'Drop-off' : 'Drop-off Address'}
+          </label>
         </div>
 
         <button type="submit" disabled={status === 'submitting' || status === 'polling'}>
