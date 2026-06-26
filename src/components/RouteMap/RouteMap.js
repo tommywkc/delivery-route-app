@@ -64,26 +64,32 @@ function RouteMap({ route }) {
       return undefined;
     }
 
-    import('mapbox-gl').then((module) => {
-      if (cancelled) {
-        return;
-      }
+    import('mapbox-gl')
+      .then((module) => {
+        if (cancelled) {
+          return;
+        }
 
-      const mapboxglModule = module.default;
-      mapboxRef.current = mapboxglModule;
-      mapboxglModule.accessToken = accessToken;
+        const mapboxglModule = module.default;
+        mapboxRef.current = mapboxglModule;
+        mapboxglModule.accessToken = accessToken;
 
-      const map = new mapboxglModule.Map({
-        container: mapContainerRef.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [114.1, 22.3],
-        zoom: 10,
+        const map = new mapboxglModule.Map({
+          container: mapContainerRef.current,
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center: [114.1, 22.3],
+          zoom: 10,
+        });
+
+        map.addControl(new mapboxglModule.NavigationControl(), 'top-right');
+        mapRef.current = map;
+        setMapReady(true);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setMapReady(false);
+        }
       });
-
-      map.addControl(new mapboxglModule.NavigationControl(), 'top-right');
-      mapRef.current = map;
-      setMapReady(true);
-    });
 
     return () => {
       cancelled = true;
@@ -118,7 +124,15 @@ function RouteMap({ route }) {
       let routeCoordinates = routePoints.map((point) => point.coordinates);
 
       if (routePoints.length > 1) {
-        routeCoordinates = await getDrivingRouteCoordinates(routePoints, accessToken);
+        try {
+          const drivingRouteCoordinates = await getDrivingRouteCoordinates(routePoints, accessToken);
+
+          if (drivingRouteCoordinates.length) {
+            routeCoordinates = drivingRouteCoordinates;
+          }
+        } catch {
+          routeCoordinates = routePoints.map((point) => point.coordinates);
+        }
       }
 
       if (cancelled) {

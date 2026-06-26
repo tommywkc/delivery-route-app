@@ -7,8 +7,6 @@ const INITIAL_STATE = {
   route: null,
   status: 'idle',
   token: '',
-  mockGetOutcome: process.env.REACT_APP_ROUTE_MOCK_GET_OUTCOME || process.env.REACT_APP_ROUTE_MOCK_OUTCOME || 'success',
-  mockPostOutcome: process.env.REACT_APP_ROUTE_MOCK_POST_OUTCOME || process.env.REACT_APP_ROUTE_MOCK_OUTCOME || 'success',
 };
 
 function wait(ms) {
@@ -22,11 +20,11 @@ function getApiMode(apiMode) {
 }
 
 function getMockPostOutcome(mockPostOutcome) {
-  return mockPostOutcome || process.env.REACT_APP_ROUTE_MOCK_POST_OUTCOME || process.env.REACT_APP_ROUTE_MOCK_OUTCOME || 'success';
+  return mockPostOutcome || process.env.REACT_APP_ROUTE_MOCK_POST_OUTCOME || 'success';
 }
 
 function getMockGetOutcome(mockGetOutcome) {
-  return mockGetOutcome || process.env.REACT_APP_ROUTE_MOCK_GET_OUTCOME || process.env.REACT_APP_ROUTE_MOCK_OUTCOME || 'success';
+  return mockGetOutcome || process.env.REACT_APP_ROUTE_MOCK_GET_OUTCOME || 'success';
 }
 
 export function useRouteRequest() {
@@ -62,8 +60,6 @@ export function useRouteRequest() {
         route: null,
         status: 'submitting',
         token: '',
-        mockGetOutcome: resolvedMockGetOutcome,
-        mockPostOutcome: resolvedMockPostOutcome,
       });
 
       try {
@@ -160,8 +156,6 @@ export function useRouteRequest() {
   return {
     apiMode: state.apiMode,
     errorMessage: state.errorMessage,
-    mockGetOutcome: state.mockGetOutcome,
-    mockPostOutcome: state.mockPostOutcome,
     route: state.route,
     status: state.status,
     submitRoute,

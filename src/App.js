@@ -4,7 +4,7 @@ import RouteMap from './components/RouteMap/RouteMap';
 import { useRouteRequest } from './hooks/useRouteRequest';
 
 function App() {
-  const { apiMode, errorMessage, mockGetOutcome, mockPostOutcome, route, status, submitRoute, token } = useRouteRequest();
+  const { apiMode, errorMessage, route, status, submitRoute, token } = useRouteRequest();
 
   return (
     <main className="app-shell">
@@ -18,12 +18,6 @@ function App() {
         </p>
         <p>Mode: {apiMode}</p>
         {token ? <p>Token: {token}</p> : null}
-        {apiMode === 'mock' ? (
-          <>
-            <p>Mock POST outcome: {mockPostOutcome}</p>
-            <p>Mock GET outcome: {mockGetOutcome}</p>
-          </>
-        ) : null}
         {errorMessage ? <p role="alert">{errorMessage}</p> : null}
       </section>
 
