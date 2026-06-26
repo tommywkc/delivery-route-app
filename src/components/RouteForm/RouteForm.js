@@ -63,7 +63,7 @@ function RouteForm({ onSubmit, status = 'idle' }) {
         </div>
 
         <button type="submit" disabled={status === 'submitting' || status === 'polling'}>
-          {status === 'submitting' || status === 'polling' ? 'Loading...' : 'Submit'}
+          {status === 'submitting' ? 'Sending request...' : status === 'polling' ? 'Finding route...' : 'Submit'}
         </button>
 
         {errorMessage ? <p className="error-message" role="alert">{errorMessage}</p> : null}
