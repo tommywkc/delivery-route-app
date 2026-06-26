@@ -33,7 +33,9 @@ function RouteForm({ onSubmit, status = 'idle' }) {
       });
     }
   }
-
+        <button type="submit" disabled={status === 'submitting' || status === 'polling'}>
+          {status === 'submitting' || status === 'polling' ? 'Loading...' : 'Submit'}
+        </button>
   return (
     <section className="placeholder-card" aria-label="Route input">
       <h2>Route input</h2>

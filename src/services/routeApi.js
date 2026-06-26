@@ -14,6 +14,16 @@ async function readErrorMessage(response) {
   return responseText.trim() || 'Request failed.';
 }
 
+function logResponseSummary(stage, response, summary) {
+  if (process.env.NODE_ENV !== 'production') {
+    console.debug('[route-api]', stage, {
+      ok: response.ok,
+      status: response.status,
+      summary,
+    });
+  }
+}
+
 function getApiMode(apiMode) {
   return apiMode || DEFAULT_API_MODE;
 }
@@ -44,10 +54,15 @@ export async function createRoute({ origin, destination, apiMode, mockScenario =
   });
 
   if (!response.ok) {
+    logResponseSummary('POST /route', response, { error: 'request failed' });
     throw new Error(await readErrorMessage(response));
   }
 
   const data = await response.json();
+
+  logResponseSummary('POST /route', response, {
+    token: data.token,
+  });
 
   return data.token;
 }
@@ -56,8 +71,19 @@ export async function getRoute(token, { apiMode, mockScenario = 'success' } = {}
   const response = await fetch(getRouteUrl(token, apiMode, mockScenario));
 
   if (!response.ok) {
+    logResponseSummary('GET /route', response, { error: 'request failed', token });
     throw new Error(await readErrorMessage(response));
   }
 
-  return response.json();
+  const data = await response.json();
+
+  logResponseSummary('GET /route', response, {
+    status: data.status,
+    token,
+    total_distance: data.total_distance,
+    total_time: data.total_time,
+    pathPoints: Array.isArray(data.path) ? data.path.length : 0,
+  });
+
+  return data;
 }

@@ -27,6 +27,12 @@ function getMockGetOutcome(mockGetOutcome) {
   return mockGetOutcome || process.env.REACT_APP_ROUTE_MOCK_GET_OUTCOME || 'success';
 }
 
+function logRouteDebug(message, details) {
+  if (process.env.NODE_ENV !== 'production') {
+    console.debug('[route-debug]', message, details || '');
+  }
+}
+
 export function useRouteRequest() {
   const mountedRef = useRef(true);
   const [state, setState] = useState(INITIAL_STATE);
@@ -54,6 +60,12 @@ export function useRouteRequest() {
       const resolvedMockPostOutcome = getMockPostOutcome(mockPostOutcome);
       const resolvedMockGetOutcome = getMockGetOutcome(mockGetOutcome);
 
+      logRouteDebug('submitRoute:start', {
+        apiMode: resolvedApiMode,
+        mockGetOutcome: resolvedMockGetOutcome,
+        mockPostOutcome: resolvedMockPostOutcome,
+      });
+
       updateState({
         errorMessage: '',
         apiMode: resolvedApiMode,
@@ -61,6 +73,8 @@ export function useRouteRequest() {
         status: 'submitting',
         token: '',
       });
+
+      logRouteDebug('status:submitting', { apiMode: resolvedApiMode });
 
       try {
         const token = await createRoute({
@@ -70,6 +84,7 @@ export function useRouteRequest() {
           origin,
         });
         updateState({ status: 'polling', token });
+        logRouteDebug('status:polling', { apiMode: resolvedApiMode, token });
 
         if (resolvedApiMode === 'mock') {
           const pollSequence =
@@ -83,11 +98,13 @@ export function useRouteRequest() {
             const route = await getRoute(token, { apiMode: resolvedApiMode, mockScenario });
 
             if (route.status === 'in progress') {
+              logRouteDebug('status:in-progress', { apiMode: resolvedApiMode, token });
               await wait(1000);
               continue;
             }
 
             if (route.status === 'success') {
+              logRouteDebug('status:success', { apiMode: resolvedApiMode, token });
               updateState({
                 route,
                 status: 'success',
@@ -96,6 +113,11 @@ export function useRouteRequest() {
             }
 
             if (route.status === 'failure') {
+              logRouteDebug('status:failure', {
+                apiMode: resolvedApiMode,
+                error: route.error,
+                token,
+              });
               updateState({
                 errorMessage: route.error || 'Route request failed.',
                 status: 'failure',
@@ -103,6 +125,7 @@ export function useRouteRequest() {
               return;
             }
 
+            logRouteDebug('status:unexpected-response', { apiMode: resolvedApiMode, route, token });
             updateState({
               errorMessage: 'Unexpected route response.',
               status: 'error',
@@ -117,11 +140,13 @@ export function useRouteRequest() {
           const route = await getRoute(token, { apiMode: resolvedApiMode });
 
           if (route.status === 'in progress') {
+            logRouteDebug('status:in-progress', { apiMode: resolvedApiMode, token });
             await wait(1000);
             continue;
           }
 
           if (route.status === 'success') {
+            logRouteDebug('status:success', { apiMode: resolvedApiMode, token });
             updateState({
               route,
               status: 'success',
@@ -130,6 +155,11 @@ export function useRouteRequest() {
           }
 
           if (route.status === 'failure') {
+            logRouteDebug('status:failure', {
+              apiMode: resolvedApiMode,
+              error: route.error,
+              token,
+            });
             updateState({
               errorMessage: route.error || 'Route request failed.',
               status: 'failure',
@@ -137,6 +167,7 @@ export function useRouteRequest() {
             return;
           }
 
+          logRouteDebug('status:unexpected-response', { apiMode: resolvedApiMode, route, token });
           updateState({
             errorMessage: 'Unexpected route response.',
             status: 'error',
@@ -144,6 +175,10 @@ export function useRouteRequest() {
           return;
         }
       } catch (error) {
+        logRouteDebug('status:error', {
+          apiMode: resolvedApiMode,
+          error: error.message || 'Request failed.',
+        });
         updateState({
           errorMessage: error.message || 'Request failed.',
           status: 'error',
