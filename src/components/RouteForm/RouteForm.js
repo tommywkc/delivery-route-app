@@ -4,7 +4,7 @@ import './RouteForm.css';
 
 function RouteForm({ onSubmit, status = 'idle' }) {
   const [pickup, setPickup] = useState('');
-  const [dropoffs, setDropoffs] = useState(['']); // 預設有一個 dropoff
+  const [dropoffs, setDropoffs] = useState(['']); // Default to one dropoff
 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -25,13 +25,22 @@ function RouteForm({ onSubmit, status = 'idle' }) {
   }
 
   function handleSwap(dropoffIndex) {
-    // 呢個 Swap 會同指定嘅 dropoff index 對調
-    const currentPickup = pickup;
-    setPickup(dropoffs[dropoffIndex]);
-    
-    const newDropoffs = [...dropoffs];
-    newDropoffs[dropoffIndex] = currentPickup;
-    setDropoffs(newDropoffs);
+    if (dropoffIndex === 0) {
+      // Swap the first dropoff with pickup
+      const currentPickup = pickup;
+      setPickup(dropoffs[0]);
+      
+      const newDropoffs = [...dropoffs];
+      newDropoffs[0] = currentPickup;
+      setDropoffs(newDropoffs);
+    } else {
+      // Swap other dropoffs with the one immediately above
+      const newDropoffs = [...dropoffs];
+      const temp = newDropoffs[dropoffIndex - 1];
+      newDropoffs[dropoffIndex - 1] = newDropoffs[dropoffIndex];
+      newDropoffs[dropoffIndex] = temp;
+      setDropoffs(newDropoffs);
+    }
   }
 
   function handleAddDropoff() {
@@ -51,7 +60,8 @@ function RouteForm({ onSubmit, status = 'idle' }) {
     setErrorMessage('');
 
     if (onSubmit) {
-      // API 目前只支援單一 Origin 同 Destination，所以就送第一個 dropoff 俾佢
+      // API currently only supports single origin and destination
+      // Submit the first filled dropoff for now
       onSubmit({
         origin: pickup.trim(),
         destination: filledDropoffs[0],
