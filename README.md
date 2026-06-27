@@ -1,71 +1,88 @@
-# Getting Started with Create React App
+# Delivery Route App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A route planning app that finds the optimal path between a pickup and drop-off location, visualised on an interactive map.
 
-## Available Scripts
+🔗 **Live Demo:** [https://delivery-route-app-badha3c7h5d5d4g0.switzerlandnorth-01.azurewebsites.net](https://delivery-route-app-badha3c7h5d5d4g0.switzerlandnorth-01.azurewebsites.net)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Input a pickup and drop-off address
+- Handles `in progress`, `success`, `failure` and `500` statuses with appropriate UI feedback
+- Displays the route on a Mapbox map with numbered waypoint markers (1, 2, 3...)
+- Address autocomplete via Mapbox Geocoding API
+- Actual driving route drawn using Mapbox Directions API
+- Mobile responsive layout
+- Full error handling for API failures and edge cases
+- Unit tests covering core API logic
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React
+- Mapbox
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Node.js ≥ 20
+- A [Mapbox access token](https://account.mapbox.com/) (create a free account)
 
-### `npm run eject`
+### Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+git clone https://github.com/tommywkc/delivery-route-app.git
+cd delivery-route-app
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Create a `.env.local` file in the project root:  
+```bash
+REACT_APP_MAPBOX_ACCESS_TOKEN=your_mapbox_token_here  
+REACT_APP_ROUTE_API_MODE=real
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Run (Development)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Test
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm test
+```
 
-### Code Splitting
+### Build (Production)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+npm run build
+npm start
+```
 
-### Analyzing the Bundle Size
+Open [http://localhost:8080](http://localhost:8080) in your browser.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Screenshots
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**Desktop**  
 
-### Advanced Configuration
+<img width="1470" height="752" alt="image" src="https://github.com/user-attachments/assets/995ecf85-c5e8-48dd-b35d-87cd02b2e989" />  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+  
+**Mobile**  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+<img width="500" alt="Mobile view" src="https://github.com/user-attachments/assets/2020a671-661b-43c7-80c1-012245e2b732" />
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# delivery-route-app
+
