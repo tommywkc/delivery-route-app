@@ -9,75 +9,12 @@
   margin-bottom: 24px;
 }
 
-.floating-label-group {
-  position: relative;
-}
 
-.floating-input {
-  width: 100%;
-  padding: 12px;
-  padding-right: 36px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  color: #111827;
-  box-sizing: border-box;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
 
-.floating-label {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #ffffff;
-  color: #9ca3af;
-  font-size: 0.95rem;
-  padding: 0 4px;
-  pointer-events: none;
-  transition: 0.15s ease-in-out all;
-  margin: 0;
-}
 
-.floating-input:focus {
-  outline: none;
-  border-color: #f97316;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
-}
 
-.floating-input:focus + .floating-label,
-.floating-input:not(:placeholder-shown) + .floating-label {
-  top: 0;
-  font-size: 0.75rem;
-  color: #f97316;
-  font-weight: 500;
-}
 
-.clear-btn {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #9ca3af;
-  font-size: 14px; 
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.15s ease-in-out;
-  z-index: 10;
-}
 
-.clear-btn:hover {
-  color: #4b5563; 
-}
-
-.clear-btn:focus {
-  outline: none;
-}
 
 .route-inputs-container {
   display: flex;
@@ -88,9 +25,9 @@
 
 .center-swap {
   position: absolute;
-  top: 50%;
+  top: -12px; /* 這個位剛好係 24px margin 嘅一半高度 */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); /* 要加返 translateY(-50%) 將掣嘅中心點對準 top 嘅位置 */
   z-index: 10;
 }
 
@@ -119,6 +56,30 @@
 .swap-btn:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+}
+
+.add-dropoff-btn {
+  background: none;
+  border: none;
+  color: #f97316;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px 0;
+  cursor: pointer;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease-in-out;
+}
+
+.add-dropoff-btn:hover {
+  color: #ea580c;
+}
+
+.add-dropoff-btn:focus {
+  outline: none;
+  text-decoration: underline;
 }
 
 .route-form-card button[type="submit"] {

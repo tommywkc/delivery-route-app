@@ -1,49 +1,53 @@
 import { useState } from 'react';
+import FloatingInput from '../FloatingInput/FloatingInput';
 import './RouteForm.css';
 
 function RouteForm({ onSubmit, status = 'idle' }) {
-  const [formValues, setFormValues] = useState({
-    pickup: '',
-    dropoff: '',
-  });
-  const [focusedField, setFocusedField] = useState(null);
+  const [pickup, setPickup] = useState('');
+  const [dropoffs, setDropoffs] = useState(['']); // 預設有一個 dropoff
+
   const [errorMessage, setErrorMessage] = useState('');
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    setFormValues((currentValues) => ({
-      ...currentValues,
-      [name]: value,
-    }));
+  function handlePickupChange(event) {
+    setPickup(event.target.value);
   }
 
-  function handleFocus(event) {
-    setFocusedField(event.target.name);
+  function handleDropoffChange(index, event) {
+    const newDropoffs = [...dropoffs];
+    newDropoffs[index] = event.target.value;
+    setDropoffs(newDropoffs);
   }
 
-  function handleBlur() {
-    setFocusedField(null);
+  function handleClearPickup() {
+    setPickup('');
   }
 
-  function handleClear(field) {
-    setFormValues((currentValues) => ({
-      ...currentValues,
-      [field]: '',
-    }));
+  function handleClearDropoff(index) {
+    const newDropoffs = [...dropoffs];
+    newDropoffs[index] = '';
+    setDropoffs(newDropoffs);
   }
 
-  function handleSwap() {
-    setFormValues((currentValues) => ({
-      pickup: currentValues.dropoff,
-      dropoff: currentValues.pickup,
-    }));
+  function handleSwap(dropoffIndex) {
+    // 呢個 Swap 會同指定嘅 dropoff index 對調
+    const currentPickup = pickup;
+    setPickup(dropoffs[dropoffIndex]);
+    
+    const newDropoffs = [...dropoffs];
+    newDropoffs[dropoffIndex] = currentPickup;
+    setDropoffs(newDropoffs);
+  }
+
+  function handleAddDropoff() {
+    setDropoffs([...dropoffs, '']);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (!formValues.pickup.trim() || !formValues.dropoff.trim()) {
+    const filledDropoffs = dropoffs.map(d => d.trim()).filter(Boolean);
+
+    if (!pickup.trim() || filledDropoffs.length === 0) {
       setErrorMessage('Please enter both pickup and drop-off addresses.');
       return;
     }
@@ -51,9 +55,10 @@ function RouteForm({ onSubmit, status = 'idle' }) {
     setErrorMessage('');
 
     if (onSubmit) {
+      // API 目前只支援單一 Origin 同 Destination，所以就送第一個 dropoff 俾佢
       onSubmit({
-        origin: formValues.pickup.trim(),
-        destination: formValues.dropoff.trim(),
+        origin: pickup.trim(),
+        destination: filledDropoffs[0],
       });
     }
   }
@@ -62,71 +67,52 @@ function RouteForm({ onSubmit, status = 'idle' }) {
     <section className="route-form-card" aria-label="Route input">
       <form onSubmit={handleSubmit}>
         <div className="route-inputs-container">
-          <div className="form-group floating-label-group">
-            <input
-              id="pickup"
-              name="pickup"
-              type="text"
-              className="floating-input"
-              value={formValues.pickup}
-              onChange={handleChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              placeholder=" "
-            />
-            <label htmlFor="pickup" className="floating-label">
-              {formValues.pickup || focusedField === 'pickup' ? 'Pickup' : 'Pickup Address'}
-            </label>
-            {formValues.pickup && (
-              <button
-                type="button"
-                className="clear-btn"
-                onClick={() => handleClear('pickup')}
-                onMouseDown={(e) => e.preventDefault()}
-                aria-label="Clear pickup"
-              >
-                &#x2715;
-              </button>
-            )}
-          </div>
+          <FloatingInput
+            id="pickup"
+            value={pickup}
+            onChange={handlePickupChange}
+            onClear={handleClearPickup}
+            shortLabel="Pickup"
+            longLabel="Pickup Address"
+            style={{ marginBottom: '24px' }}
+          />
 
-          <button
-            type="button"
-            className="swap-btn center-swap"
-            onClick={handleSwap}
-            aria-label="Swap pickup and drop-off"
-          >
-            &#x21C5;
-          </button>
+          {dropoffs.map((dropoff, index) => {
+            const isLastDropoff = index === dropoffs.length - 1;
+            const dropoffId = `dropoff-${index}`;
+            return (
+              <div key={dropoffId} style={{ position: 'relative' }}>
+                <button
+                  type="button"
+                  className="swap-btn center-swap"
+                  onClick={() => handleSwap(index)}
+                  aria-label="Swap pickup and drop-off"
+                >
+                  &#x21C5;
+                </button>
 
-          <div className="form-group floating-label-group" style={{ marginBottom: 0 }}>
-            <input
-              id="dropoff"
-              name="dropoff"
-              type="text"
-              className="floating-input"
-              value={formValues.dropoff}
-              onChange={handleChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              placeholder=" "
-            />
-            <label htmlFor="dropoff" className="floating-label">
-              {formValues.dropoff || focusedField === 'dropoff' ? 'Drop-off' : 'Drop-off Address'}
-            </label>
-            {formValues.dropoff && (
-              <button
-                type="button"
-                className="clear-btn"
-                onClick={() => handleClear('dropoff')}
-                onMouseDown={(e) => e.preventDefault()}
-                aria-label="Clear drop-off"
-              >
-                &#x2715;
-              </button>
-            )}
-          </div>
+                <FloatingInput
+                  id={dropoffId}
+                  value={dropoff}
+                  onChange={(e) => handleDropoffChange(index, e)}
+                  onClear={() => handleClearDropoff(index)}
+                  shortLabel={`Drop-off ${index > 0 ? index + 1 : ''}`}
+                  longLabel={`Drop-off Address ${index > 0 ? index + 1 : ''}`}
+                  style={{ marginBottom: isLastDropoff ? 0 : '24px' }}
+                />
+              </div>
+            );
+          })}
         </div>
+
+        <button 
+          type="button" 
+          className="add-dropoff-btn"
+          onClick={handleAddDropoff}
+          aria-label="Add another drop-off"
+        >
+          &#x002B; Add Stop
+        </button>
 
         <button type="submit" disabled={status === 'submitting' || status === 'polling'}>
           {status === 'submitting' ? 'Submitting...' : status === 'polling' ? 'Calculating route...' : 'Submit'}
