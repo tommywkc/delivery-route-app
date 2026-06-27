@@ -1,0 +1,57 @@
+.loading-container {
+  margin-top: 24px;
+  height: 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-group {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -150px;
+  display: flex;
+  align-items: flex-end; /* Align items to the bottom */
+  gap: 4px;
+  animation: run-van-run 2s infinite linear;
+}
+
+.van-image {
+  height: 48px;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 2px;
+  color: #f97316;
+  font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 4px; /* Slightly off the ground */
+}
+
+.loading-dots span {
+  animation: bounce 0.5s infinite alternate;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes run-van-run {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 100%;
+  }
+}

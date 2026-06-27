@@ -40,12 +40,5 @@
 }
 
 .map-section h2 {
-  display: none; /* Hide default title for a cleaner look */
+  display: none;
 }
-
-/* Map container styling is handled in component, setting height here to fill */
-.map-container {
-  flex: 1;
-  width: 100%;
-}
-

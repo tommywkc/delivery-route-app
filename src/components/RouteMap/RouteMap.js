@@ -226,10 +226,10 @@ function RouteMap({ route }) {
   }, [accessToken, mapReady, routePoints]);
 
   return (
-    <div aria-label="Route map" style={{ width: '100%', height: '100%' }}>
+    <div aria-label="Route map" style={{ width: '100%', height: '100%', flex: 1, position: 'relative' }}>
       <div
         ref={mapContainerRef}
-        style={{ height: '100%', width: '100%' }}
+        style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
       />
     </div>
   );

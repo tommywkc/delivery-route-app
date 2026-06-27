@@ -1,5 +1,6 @@
 import './App.css';
 import Header from './components/Header/Header';
+import LoadingVan from './components/LoadingVan/LoadingVan';
 import RouteForm from './components/RouteForm/RouteForm';
 import RouteMap from './components/RouteMap/RouteMap';
 import { useRouteRequest } from './hooks/useRouteRequest';
@@ -36,6 +37,10 @@ function App() {
         <aside className="left-panel">
           <RouteForm onSubmit={submitRoute} status={status} />
           
+          {(status === 'submitting' || status === 'polling') && (
+            <LoadingVan />
+          )}
+
           {userMessage && (
             <section className="message-card" aria-live="polite" aria-label="Route message">
               <p role={status === 'failure' || status === 'error' ? 'alert' : 'status'} style={{ margin: 0 }}>
