@@ -15,10 +15,11 @@ function getUserMessage(status, errorMessage, route) {
     const hours = Math.floor(route.total_time / 3600);
     const minutes = Math.floor((route.total_time % 3600) / 60);
     const timeString = hours > 0 ? `${hours}hr ${minutes}min` : `${minutes}min`;
+    const distanceString = `${route.total_distance / 1000}km`;
     
     return (
       <>
-        Total distance: {route.total_distance}<br />
+        Total distance: {distanceString}<br />
         Total time: {timeString}
       </>
     );
