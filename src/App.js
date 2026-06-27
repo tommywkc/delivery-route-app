@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import LoadingVan from './components/LoadingVan/LoadingVan';
@@ -27,15 +28,21 @@ function getUserMessage(status, errorMessage, route) {
 }
 
 function App() {
-  const { errorMessage, route, status, submitRoute } = useRouteRequest();
+  const { errorMessage, route, status, submitRoute, resetState } = useRouteRequest();
+  const [formKey, setFormKey] = useState(0); // Used to force remount of RouteForm
   const userMessage = getUserMessage(status, errorMessage, route);
+
+  function handleReset() {
+    resetState();
+    setFormKey(prevKey => prevKey + 1);
+  }
 
   return (
     <div className="app-shell">
       <Header />
       <main className="main-content">
         <aside className="left-panel">
-          <RouteForm onSubmit={submitRoute} status={status} />
+          <RouteForm key={formKey} onSubmit={submitRoute} onReset={handleReset} status={status} />
           
           {(status === 'submitting' || status === 'polling') && (
             <LoadingVan />

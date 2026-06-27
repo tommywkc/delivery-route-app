@@ -111,6 +111,61 @@
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
 }
 
+.form-actions-row {
+  display: flex;
+  margin-top: 48px;
+}
+
+.reset-btn {
+  background-color: transparent;
+  color: #9ca3af; /* Muted gray */
+  border: none;
+  width: 24px; /* Align with timeline-col width (24px) */
+  margin-right: 16px; /* Align with timeline-col margin (16px) */
+  height: 44px; /* Match submit button height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease-in-out;
+  padding: 0;
+}
+
+.reset-btn:hover {
+  background-color: transparent;
+  color: #4b5563; /* Darker gray on hover */
+}
+
+.reset-btn:disabled {
+  background-color: transparent;
+  color: #d1d5db;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.submit-btn {
+  flex: 1;
+  background-color: #f97316;
+  color: white;
+  font-weight: 600;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  height: 44px;
+}
+
+.submit-btn:hover {
+  background-color: #ea580c;
+}
+
+.submit-btn:disabled {
+  background-color: #fca5a5; /* Light red/orange for disabled */
+  cursor: not-allowed;
+}
+
 .swap-btn {
   background-color: #ffffff;
   border: 1px solid #d1d5db;
@@ -136,28 +191,6 @@
 .swap-btn:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
-}
-
-.route-form-card button[type="submit"] {
-  width: 100%;
-  background-color: #f97316;
-  color: white;
-  font-weight: 600;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: background-color 0.15s ease-in-out;
-}
-
-.route-form-card button[type="submit"]:hover {
-  background-color: #ea580c;
-}
-
-.route-form-card button[type="submit"]:disabled {
-  background-color: #9ca3af;
-  cursor: not-allowed;
 }
 
 .error-message {

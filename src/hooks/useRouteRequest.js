@@ -54,6 +54,10 @@ export function useRouteRequest() {
     }
   }, []);
 
+  const resetState = useCallback(() => {
+    setState(INITIAL_STATE);
+  }, []);
+
   const submitRoute = useCallback(
     async ({ origin, destination, apiMode, mockPostOutcome, mockGetOutcome } = {}) => {
       const resolvedApiMode = getApiMode(apiMode);
@@ -194,6 +198,7 @@ export function useRouteRequest() {
     route: state.route,
     status: state.status,
     submitRoute,
+    resetState,
     token: state.token,
   };
 }
