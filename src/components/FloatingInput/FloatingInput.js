@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './FloatingInput.css';
 
-function FloatingInput({ id, value, onChange, onClear, shortLabel, longLabel, style }) {
+function FloatingInput({ id, value, onChange, onClear, shortLabel, longLabel, style, showClearBtn }) {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -20,13 +20,13 @@ function FloatingInput({ id, value, onChange, onClear, shortLabel, longLabel, st
       <label htmlFor={id} className="floating-label">
         {value || isFocused ? shortLabel : longLabel}
       </label>
-      {value && (
+      {showClearBtn && (
         <button
           type="button"
           className="clear-btn"
           onClick={onClear}
           onMouseDown={(e) => e.preventDefault()}
-          aria-label={`Clear ${shortLabel}`}
+          aria-label={`Action on ${shortLabel}`}
         >
           &#x2715;
         </button>

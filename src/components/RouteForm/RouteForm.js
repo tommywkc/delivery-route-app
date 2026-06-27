@@ -18,13 +18,9 @@ function RouteForm({ onSubmit, status = 'idle' }) {
     setDropoffs(newDropoffs);
   }
 
-  function handleClearPickup() {
-    setPickup('');
-  }
-
-  function handleClearDropoff(index) {
+  function handleRemoveDropoff(index) {
     const newDropoffs = [...dropoffs];
-    newDropoffs[index] = '';
+    newDropoffs.splice(index, 1);
     setDropoffs(newDropoffs);
   }
 
@@ -71,7 +67,7 @@ function RouteForm({ onSubmit, status = 'idle' }) {
             id="pickup"
             value={pickup}
             onChange={handlePickupChange}
-            onClear={handleClearPickup}
+            showClearBtn={false}
             shortLabel="Pickup"
             longLabel="Pickup Address"
             style={{ marginBottom: '24px' }}
@@ -80,6 +76,9 @@ function RouteForm({ onSubmit, status = 'idle' }) {
           {dropoffs.map((dropoff, index) => {
             const isLastDropoff = index === dropoffs.length - 1;
             const dropoffId = `dropoff-${index}`;
+            const totalInputs = 1 + dropoffs.length;
+            const showRemove = totalInputs >= 3;
+
             return (
               <div key={dropoffId} style={{ position: 'relative' }}>
                 <button
@@ -95,7 +94,8 @@ function RouteForm({ onSubmit, status = 'idle' }) {
                   id={dropoffId}
                   value={dropoff}
                   onChange={(e) => handleDropoffChange(index, e)}
-                  onClear={() => handleClearDropoff(index)}
+                  onClear={() => handleRemoveDropoff(index)}
+                  showClearBtn={showRemove}
                   shortLabel={`Drop-off ${index > 0 ? index + 1 : ''}`}
                   longLabel={`Drop-off Address ${index > 0 ? index + 1 : ''}`}
                   style={{ marginBottom: isLastDropoff ? 0 : '24px' }}
