@@ -30,6 +30,18 @@
   border: 1px solid #e5e7eb;
   font-size: 0.95rem;
   color: #374151;
+  animation: fade-in-left 0.4s ease-out forwards; /* Fade-in animation*/
+}
+
+@keyframes fade-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .map-section {
