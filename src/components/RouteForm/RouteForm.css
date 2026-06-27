@@ -3,6 +3,8 @@
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   padding: 24px;
+  width: 100%; /* Ensure card doesn't exceed container */
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .route-form-card .form-group {

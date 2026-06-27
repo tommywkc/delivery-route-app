@@ -2,12 +2,14 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100%; /* Force 100% width on the main shell */
   overflow: hidden;
 }
 
 .main-content {
   display: flex;
   flex: 1;
+  width: 100%; /* Ensure main content never collapses */
   overflow: hidden;
 }
 
@@ -54,3 +56,41 @@
 .map-section h2 {
   display: none;
 }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .left-panel {
+    width: 100%;
+    min-width: 100%;
+    border-right: none;
+    padding: 16px;
+    height: auto;
+    flex: 1; /* Allow it to take up full available space */
+    max-width: 100%; /* Remove hardcoded 500px to allow full width */
+    margin: 0; /* Reset centering, take full width */
+    box-sizing: border-box; /* Ensure padding doesn't push it off-screen */
+    background-color: #f9fafb; /* Maintain background */
+  }
+
+  .map-section {
+    flex: 1;
+    height: calc(100vh - 64px); /* Use absolute height instead of min-height */
+    width: 100vw; /* Force exact viewport width */
+    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+    position: relative; /* Map container stability */
+  }
+
+  /* When on mobile, entirely hide panels based on state */
+  .mobile-hidden {
+    display: none !important;
+  }
+}
+
+

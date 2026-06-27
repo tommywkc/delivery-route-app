@@ -85,6 +85,16 @@ function RouteMap({ route }) {
         map.addControl(new mapboxglModule.NavigationControl(), 'top-right');
         mapRef.current = map;
         setMapReady(true);
+
+        // Mapbox won't automatically resize when its container goes from display:none to display:flex.
+        // A ResizeObserver ensures the map always fits its container perfectly.
+        const resizeObserver = new ResizeObserver(() => {
+          map.resize();
+        });
+        resizeObserver.observe(mapContainerRef.current);
+        
+        // Save the observer to clean it up later
+        mapRef.current._resizeObserver = resizeObserver;
       })
       .catch(() => {
         if (!cancelled) {
@@ -97,6 +107,9 @@ function RouteMap({ route }) {
       setMapReady(false);
 
       if (mapRef.current) {
+        if (mapRef.current._resizeObserver) {
+          mapRef.current._resizeObserver.disconnect();
+        }
         mapRef.current.remove();
         mapRef.current = null;
       }

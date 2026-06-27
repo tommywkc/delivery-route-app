@@ -17,13 +17,55 @@
   letter-spacing: -0.025em;
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mobile-only-back-btn {
+  display: none;
+}
+
 .app-header .user-info {
   display: flex;
   align-items: center;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .app-header .user-greeting {
   font-size: 0.95rem;
   font-weight: 500;
   color: #4b5563;
+}
+
+.mobile-center-title {
+  display: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+  
+  .mobile-center-title {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.1rem;
+  }
+  
+  .mobile-only-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #f97316;
+    padding: 0;
+    cursor: pointer;
+  }
 }

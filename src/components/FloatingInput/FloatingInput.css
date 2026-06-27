@@ -10,7 +10,7 @@
   border-radius: 6px;
   font-size: 0.95rem;
   color: #111827;
-  box-sizing: border-box;
+  box-sizing: border-box; /* 確保 padding 唔會將個 input 撐長 */
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 

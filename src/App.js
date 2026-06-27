@@ -37,18 +37,21 @@ function App() {
     setFormKey(prevKey => prevKey + 1);
   }
 
+  // On Mobile: Only show map if status is success and route exists
+  const isMobileMapVisible = status === 'success' && route;
+
   return (
     <div className="app-shell">
-      <Header />
+      <Header showBackBtn={isMobileMapVisible} onBack={handleReset} />
       <main className="main-content">
-        <aside className="left-panel">
+        <aside className={`left-panel ${isMobileMapVisible ? 'mobile-hidden' : ''}`}>
           <RouteForm key={formKey} onSubmit={submitRoute} onReset={handleReset} status={status} />
           
           {(status === 'submitting' || status === 'polling') && (
             <LoadingVan />
           )}
 
-          {userMessage && (
+          {userMessage && status !== 'success' && (
             <section className="message-card" aria-live="polite" aria-label="Route message">
               <p role={status === 'failure' || status === 'error' ? 'alert' : 'status'} style={{ margin: 0 }}>
                 {userMessage}
@@ -57,10 +60,22 @@ function App() {
           )}
         </aside>
 
-        <section className="map-section">
+        <section 
+          className={`map-section ${!isMobileMapVisible ? 'mobile-hidden' : ''}`} 
+          aria-label="Route map"
+        >
+          {/* On desktop, keep standard h2 visually hidden. On mobile, we only see map now */}
           <h2>Map</h2>
-          {route ? null : <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: '#6b7280'}}>No route yet.</div>}
           <RouteMap route={route} />
+
+          {/* Render success message over the map (always anchored to bottom) */}
+          {status === 'success' && route && (
+            <section className="message-card" aria-live="polite" aria-label="Route message" style={{ margin: '16px', position: 'absolute', bottom: '24px', left: 0, right: 0, zIndex: 10, border: '1px solid #f97316' }}>
+              <p role="status" style={{ margin: 0 }}>
+                {userMessage}
+              </p>
+            </section>
+          )}
         </section>
       </main>
     </div>
