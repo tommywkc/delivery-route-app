@@ -43,7 +43,7 @@
 .timeline-number {
   width: 24px;
   height: 24px;
-  background-color: #4b5563; /* 轉深灰色 */
+  background-color: #4b5563; /* Dark gray */
   color: white;
   border-radius: 50%;
   display: flex;
@@ -52,14 +52,14 @@
   font-size: 12px;
   font-weight: 600;
   z-index: 2;
-  margin-top: 12px; /* 較高番少少對齊 input 框中間 */
-  margin-bottom: auto; /* 避免 flex-col 影響 */
+  margin-top: 12px; /* Align slightly higher to match input center */
+  margin-bottom: auto; /* Prevent flex-col distortion */
 }
 
 .timeline-dotted-line {
   position: absolute;
   top: 36px; /* 12px margin + 24px height = 36px */
-  bottom: -36px; /* padding-bottom(24px) + 下一顆嘅 margin-top(12px) = 36px */
+  bottom: -36px; /* padding-bottom(24px) + next margin-top(12px) = 36px */
   width: 0;
   border-left: 2px dotted #d1d5db;
   z-index: 1;
@@ -82,7 +82,7 @@
   position: absolute;
   bottom: -12px;
   left: calc(50% + 20px); /* Offset to account for timeline width */
-  transform: translate(-50%, 50%); /* 加返 50% 令個掣垂直置中喺 24px 嘅 margin gap 入面 */
+  transform: translate(-50%, 50%); /* Add 50% back to vertically center the button in the 24px margin gap */
   z-index: 10;
   
   background-color: #ffffff;

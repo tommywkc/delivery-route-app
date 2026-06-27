@@ -16,10 +16,10 @@ function getUserMessage(status, errorMessage, route) {
     const timeString = hours > 0 ? `${hours}hr ${minutes}min` : `${minutes}min`;
     
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <strong>Total distance: {route.total_distance}</strong>
-        <strong>Total time: {timeString}</strong>
-      </div>
+      <>
+        Total distance: {route.total_distance}<br />
+        Total time: {timeString}
+      </>
     );
   }
 

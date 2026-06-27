@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import '../RouteForm/RouteForm.css'; // 引入 RouteForm.css 嚟 reuse .timeline-number class
+import '../RouteForm/RouteForm.css'; // Import RouteForm.css to reuse the .timeline-number class
 import { getDrivingRouteCoordinates } from '../../services/mapboxRoute';
 
 function parseRoutePath(route) {
