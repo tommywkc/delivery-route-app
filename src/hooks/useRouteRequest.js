@@ -90,62 +90,15 @@ export function useRouteRequest() {
         updateState({ status: 'polling', token });
         logRouteDebug('status:polling', { apiMode: resolvedApiMode, token });
 
-        if (resolvedApiMode === 'mock') {
-          const pollSequence =
-            resolvedMockGetOutcome === 'failure'
-              ? ['failure']
-              : resolvedMockGetOutcome === '500'
-                ? ['500']
-                : ['inProgress', 'success'];
-
-          for (const mockScenario of pollSequence) {
-            const route = await getRoute(token, { apiMode: resolvedApiMode, mockScenario });
-
-            if (route.status === 'in progress') {
-              logRouteDebug('status:in-progress', { apiMode: resolvedApiMode, token });
-              await wait(1000);
-              continue;
-            }
-
-            if (route.status === 'success') {
-              logRouteDebug('status:success', { apiMode: resolvedApiMode, token });
-              updateState({
-                route,
-                status: 'success',
-              });
-              return;
-            }
-
-            if (route.status === 'failure') {
-              logRouteDebug('status:failure', {
-                apiMode: resolvedApiMode,
-                error: route.error,
-                token,
-              });
-              updateState({
-                errorMessage: route.error || 'Route request failed.',
-                status: 'failure',
-              });
-              return;
-            }
-
-            logRouteDebug('status:unexpected-response', { apiMode: resolvedApiMode, route, token });
-            updateState({
-              errorMessage: 'Unexpected route response.',
-              status: 'error',
-            });
-            return;
-          }
-
-          return;
-        }
-
+        // Retry logic: keep polling while status is "in progress"
         while (true) {
-          const route = await getRoute(token, { apiMode: resolvedApiMode });
+          // If in mock mode, use the designated mock GET outcome, else use standard token
+          const mockScenario = resolvedApiMode === 'mock' ? resolvedMockGetOutcome : undefined;
+          const route = await getRoute(token, { apiMode: resolvedApiMode, mockScenario });
 
           if (route.status === 'in progress') {
             logRouteDebug('status:in-progress', { apiMode: resolvedApiMode, token });
-            await wait(1000);
+            await wait(1000); // Retry logic when backend is busy
             continue;
           }
 
@@ -159,6 +112,7 @@ export function useRouteRequest() {
           }
 
           if (route.status === 'failure') {
+            // Stops requesting when backend returns error (failure status)
             logRouteDebug('status:failure', {
               apiMode: resolvedApiMode,
               error: route.error,
@@ -171,6 +125,7 @@ export function useRouteRequest() {
             return;
           }
 
+          // Handle any undefined responses
           logRouteDebug('status:unexpected-response', { apiMode: resolvedApiMode, route, token });
           updateState({
             errorMessage: 'Unexpected route response.',
@@ -179,6 +134,7 @@ export function useRouteRequest() {
           return;
         }
       } catch (error) {
+        // Handles catastrophic errors (500, network loss, etc) cleanly
         logRouteDebug('status:error', {
           apiMode: resolvedApiMode,
           error: error.message || 'Request failed.',

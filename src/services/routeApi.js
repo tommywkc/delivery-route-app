@@ -33,7 +33,12 @@ function getCreateRouteUrl(apiMode, mockScenario) {
     return `${API_BASE_URL}/route`;
   }
 
-  return `${API_BASE_URL}${mockScenario === '500' ? MOCK_ROUTE_ENDPOINTS[500] : MOCK_ROUTE_ENDPOINTS.success}`;
+  // The documentation Mock POST only defines 2 endpoints: success and 500
+  if (mockScenario === '500') {
+    return `${API_BASE_URL}${MOCK_ROUTE_ENDPOINTS[500]}`;
+  }
+
+  return `${API_BASE_URL}${MOCK_ROUTE_ENDPOINTS.success}`;
 }
 
 function getRouteUrl(token, apiMode, mockScenario) {
@@ -41,6 +46,8 @@ function getRouteUrl(token, apiMode, mockScenario) {
     return `${API_BASE_URL}/route/${token}`;
   }
 
+  // Fallback to testing APIs when in mock mode
+  // It resolves mock scenarios like 'failure', 'inProgress', '500' based on the endpoints mapping
   return `${API_BASE_URL}${MOCK_ROUTE_ENDPOINTS[mockScenario] || MOCK_ROUTE_ENDPOINTS.success}`;
 }
 
