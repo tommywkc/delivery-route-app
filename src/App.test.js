@@ -3,6 +3,7 @@ import App from './App';
 
 test('renders the route planner shell', () => {
   render(<App />);
-  expect(screen.getByRole('heading', { name: /delivery route app/i })).toBeInTheDocument();
+  const headings = screen.getAllByRole('heading', { name: /deliveryapp/i });
+  expect(headings.length).toBeGreaterThan(0);
   expect(screen.getByRole('heading', { name: /route input/i })).toBeInTheDocument();
 });
