@@ -96,8 +96,8 @@ function RouteForm({ onSubmit, status = 'idle' }) {
                   onChange={(e) => handleDropoffChange(index, e)}
                   onClear={() => handleRemoveDropoff(index)}
                   showClearBtn={showRemove}
-                  shortLabel={`Drop-off ${index > 0 ? index + 1 : ''}`}
-                  longLabel={`Drop-off Address ${index > 0 ? index + 1 : ''}`}
+                  shortLabel={isLastDropoff ? 'Drop-off' : 'Stop'}
+                  longLabel={isLastDropoff ? 'Drop-off Address' : 'Stop Address'}
                   style={{ marginBottom: isLastDropoff ? 0 : '24px' }}
                 />
               </div>
