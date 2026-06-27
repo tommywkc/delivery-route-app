@@ -72,16 +72,24 @@ function RouteForm({ onSubmit, status = 'idle' }) {
   return (
     <section className="route-form-card" aria-label="Route input">
       <form onSubmit={handleSubmit}>
-        <div className="route-inputs-container">
-          <FloatingInput
-            id="pickup"
-            value={pickup}
-            onChange={handlePickupChange}
-            showClearBtn={false}
-            shortLabel="Pickup"
-            longLabel="Pickup Address"
-            style={{ marginBottom: '24px' }}
-          />
+        <div className="route-inputs-container" style={{ marginBottom: '24px' }}>
+          
+          <div className="input-row">
+            <div className="timeline-col">
+              <div className="timeline-number">1</div>
+              <div className="timeline-dotted-line"></div>
+            </div>
+            <div className="input-col">
+              <FloatingInput
+                id="pickup"
+                value={pickup}
+                onChange={handlePickupChange}
+                showClearBtn={false}
+                shortLabel="Pickup"
+                longLabel="Pickup Address"
+              />
+            </div>
+          </div>
 
           {dropoffs.map((dropoff, index) => {
             const isLastDropoff = index === dropoffs.length - 1;
@@ -90,26 +98,31 @@ function RouteForm({ onSubmit, status = 'idle' }) {
             const showRemove = totalInputs >= 3;
 
             return (
-              <div key={dropoffId} style={{ position: 'relative' }}>
-                <button
-                  type="button"
-                  className="swap-btn center-swap"
-                  onClick={() => handleSwap(index)}
-                  aria-label="Swap pickup and drop-off"
-                >
-                  &#x21C5;
-                </button>
+              <div key={dropoffId} className="input-row">
+                <div className="timeline-col">
+                  <div className="timeline-number">{index + 2}</div>
+                  {!isLastDropoff && <div className="timeline-dotted-line"></div>}
+                </div>
+                <div className="input-col">
+                  <button
+                    type="button"
+                    className="swap-btn center-swap"
+                    onClick={() => handleSwap(index)}
+                    aria-label="Swap pickup and drop-off"
+                  >
+                    &#x21C5;
+                  </button>
 
-                <FloatingInput
-                  id={dropoffId}
-                  value={dropoff}
-                  onChange={(e) => handleDropoffChange(index, e)}
-                  onClear={() => handleRemoveDropoff(index)}
-                  showClearBtn={showRemove}
-                  shortLabel={isLastDropoff ? 'Drop-off' : 'Stop'}
-                  longLabel={isLastDropoff ? 'Drop-off Address' : 'Stop Address'}
-                  style={{ marginBottom: isLastDropoff ? 0 : '24px' }}
-                />
+                  <FloatingInput
+                    id={dropoffId}
+                    value={dropoff}
+                    onChange={(e) => handleDropoffChange(index, e)}
+                    onClear={() => handleRemoveDropoff(index)}
+                    showClearBtn={showRemove}
+                    shortLabel={isLastDropoff ? 'Drop-off' : 'Stop'}
+                    longLabel={isLastDropoff ? 'Drop-off Address' : 'Stop Address'}
+                  />
+                </div>
               </div>
             );
           })}

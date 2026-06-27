@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import '../RouteForm/RouteForm.css'; // 引入 RouteForm.css 嚟 reuse .timeline-number class
 import { getDrivingRouteCoordinates } from '../../services/mapboxRoute';
 
 function parseRoutePath(route) {
@@ -175,23 +176,17 @@ function RouteMap({ route }) {
           'line-join': 'round',
         },
         paint: {
-          'line-color': '#111827',
+          'line-color': '#4b5563',
           'line-width': 4,
         },
       });
 
       routePoints.forEach((point) => {
         const markerElement = document.createElement('div');
-        markerElement.style.width = '24px';
-        markerElement.style.height = '24px';
-        markerElement.style.borderRadius = '999px';
-        markerElement.style.background = '#111827';
-        markerElement.style.color = '#ffffff';
-        markerElement.style.fontSize = '12px';
-        markerElement.style.fontWeight = '700';
-        markerElement.style.lineHeight = '24px';
-        markerElement.style.textAlign = 'center';
-        markerElement.style.border = '1px solid #ffffff';
+        markerElement.className = 'timeline-number';
+        markerElement.style.marginTop = '0'; // Override the margin from RouteForm.css
+        markerElement.style.border = '2px solid #ffffff'; // Add a white border to make it pop on the map
+        markerElement.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)'; // Add a small shadow
         markerElement.textContent = String(point.sequence);
 
         const marker = new mapboxglModule.Marker({ element: markerElement, anchor: 'center' })
