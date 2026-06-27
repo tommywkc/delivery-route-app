@@ -50,10 +50,10 @@ function RouteForm({ onSubmit, onReset, status = 'idle' }) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const filledDropoffs = dropoffs.map(d => d.trim()).filter(Boolean);
+    const emptyDropoffsExists = dropoffs.some(d => !d.trim());
 
-    if (!pickup.trim() || filledDropoffs.length === 0) {
-      setErrorMessage('Please enter both pickup and drop-off addresses.');
+    if (!pickup.trim() || emptyDropoffsExists) {
+      setErrorMessage('Please fill in all pickup, stop(s), and drop-off addresses.');
       return;
     }
 
@@ -61,10 +61,10 @@ function RouteForm({ onSubmit, onReset, status = 'idle' }) {
 
     if (onSubmit) {
       // API currently only supports single origin and destination
-      // Submit the first filled dropoff for now
+      // Submit the LAST dropoff as destination to simulate full route (head and tail)
       onSubmit({
         origin: pickup.trim(),
-        destination: filledDropoffs[0],
+        destination: dropoffs[dropoffs.length - 1].trim(),
       });
     }
   }
