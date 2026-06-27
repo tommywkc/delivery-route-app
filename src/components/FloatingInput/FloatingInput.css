@@ -8,7 +8,7 @@
   padding-right: 36px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #111827;
   box-sizing: border-box; /* 確保 padding 唔會將個 input 撐長 */
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -20,8 +20,8 @@
   top: 50%;
   transform: translateY(-50%);
   background-color: #ffffff;
-  color: #9ca3af;
-  font-size: 0.95rem;
+  color: #6b7280;
+  font-size: 1rem;
   padding: 0 4px;
   pointer-events: none;
   transition: 0.15s ease-in-out all;
@@ -37,7 +37,7 @@
 .floating-input:focus + .floating-label,
 .floating-input:not(:placeholder-shown) + .floating-label {
   top: 0;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: #f97316;
   font-weight: 500;
 }
@@ -86,10 +86,10 @@
 }
 
 .suggestion-item {
-  padding: 10px 12px;
+  padding: 12px 16px;
   cursor: pointer;
   border-bottom: 1px solid #f3f4f6;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #1f2937;
   display: flex;
   flex-direction: column;
@@ -104,12 +104,12 @@
 }
 
 .suggestion-item strong {
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 2px;
 }
 
 .suggestion-subtext {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: #6b7280;
   white-space: nowrap;
   overflow: hidden;

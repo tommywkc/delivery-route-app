@@ -90,6 +90,7 @@
   background-color: #ffffff;
   border: 1px solid #d1d5db;
   color: #f97316;
+  font-size: 1.125rem;
   cursor: pointer;
   padding: 0;
   display: flex;
@@ -103,9 +104,9 @@
 }
 
 .add-dropoff-btn:hover {
-  background-color: #fff7ed;
+  background-color: #f97316;
+  color: #ffffff;
   border-color: #f97316;
-  color: #ea580c;
 }
 
 .add-dropoff-btn:focus {
@@ -172,7 +173,7 @@
   background-color: #ffffff;
   border: 1px solid #d1d5db;
   color: #f97316;
-  font-size: 16px;
+  font-size: 1.125rem;
   cursor: pointer;
   padding: 0;
   display: flex;
@@ -186,7 +187,8 @@
 }
 
 .swap-btn:hover {
-  background-color: #fff7ed;
+  background-color: #f97316;
+  color: #ffffff;
   border-color: #f97316;
 }
 

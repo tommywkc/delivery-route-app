@@ -30,7 +30,8 @@
   background-color: #ffffff;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-weight: 500;
   color: #374151;
   animation: fade-in-left 0.4s ease-out forwards; /* Fade-in animation*/
 }
